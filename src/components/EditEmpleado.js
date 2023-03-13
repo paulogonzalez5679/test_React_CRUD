@@ -15,14 +15,8 @@ const EditEmpleado = () => {
   const [apellido, setApellido] = useState('');
   const [cedula, setCedula] = useState('');
   const [correo, setCorreo] = useState('');
-  const [contrasenia, setContrasenia] = useState('');
-  const [vacuna, setVacuna] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [estadoVacunado, setVacunado] = useState('');
-  const [tipoVacuna, setTipoVacuna] = useState('');
-  const [fecha_Vacunacion, setFechaVacuna] = useState('');
-  const [ndosis, setNdosis] = useState('');
+
+
 
   const navigate = useNavigate()
   const {id}= useParams()

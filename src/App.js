@@ -8,7 +8,7 @@ const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 function App() {
 
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
 
   async function getRol(uid)
   {
@@ -50,7 +50,7 @@ function App() {
       {
         setUserRol(usuarioFirebase)
       }
-
+      
     }else{
       setUser(null)
     }

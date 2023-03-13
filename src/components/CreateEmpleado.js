@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import { getFirestore,collection,addDoc} from "firebase/firestore";
+import { getFirestore,collection,addDoc, setDoc,doc} from "firebase/firestore";
 import firebaseApp from "../firebase/credenciales";
 import {createUserWithEmailAndPassword,getAuth} from'firebase/auth'
 import Swal from "sweetalert2";
-const firestore = getFirestore(firebaseApp);
+
 const auth = getAuth(firebaseApp);
 
 
 const CreateEmpleado = () => {
+  const firestore = getFirestore(firebaseApp);
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [cedula, setCedula] = useState("");
   const [correo, setCorreo] = useState("");
+  const [rol, setRol] = useState("");
   const [contrasenia, setContrasenia] = useState("");
   const [vacuna, setVacuna] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -25,7 +27,7 @@ const CreateEmpleado = () => {
 
   const navigate = useNavigate();
 
-  const usuariosCollection = collection(firestore, "Usuarios");
+  const usuariosCollection = collection(firestore, "Usuarios",);
 
   function barajar(array) {
     let posicionActual = array.length;
@@ -55,51 +57,47 @@ const CreateEmpleado = () => {
   // EXISTEN ALGUNOS ERRORES AL ENVIAR ME SOLICITA UN ROL PERO AL MOMENTO DE ENVIARLO GENERA UN ERROR
   // EN LA CONTRASEÑA
 
-  // async function resgistrarUsuario(email, password, rol)
-  // {
-  //   console.log(email,password)
-  //   //const password = generarAleatorios(8)
-  //   createUserWithEmailAndPassword(auth, email,password)
-  // }
-
-
-  //FUNCION QUE ALMACENA DENTRO DE LA BASE DE DATOS
-  const empleadoGurdado = async (e) => {
-    
-    e.preventDefault();
-    // const correo= correo;
-    // const  rol= "empleado";
-    const contraseniaRegistro = generarAleatorios(8);
-    //  const  rol= "admin";
-    //  resgistrarUsuario(correo,contraseniaRegistro,rol)
-    
-    await addDoc(usuariosCollection, {
-      nombre: nombre,
-      apellido: apellido,
-      cedula: cedula,
-      correo: correo,
-      rol: "empleado",
-      contrasenia: contraseniaRegistro ,
-      vacuna: "",
-      telefono: "",
-      direccion: "",
-      estadoVacunado: "",
-      tipoVacuna: "",
-      fecha_Vacunacion: "",
-      ndosis: "",
-    });
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'User Created',
-      showConfirmButton: false,
-      timer: 1500
+  async function resgistrarUsuario(email, password, rol, nombre, apellido, cedula)
+  {
+    const infousario = await createUserWithEmailAndPassword(auth, email,password).then((usuarioFirebase)=>{
+      return usuarioFirebase
     })
-     
-    navigate("/");
+    console.log(infousario.user.uid);
+
+    const docuref = doc(firestore,`Usuarios/${infousario.user.uid}`);
+    setDoc(docuref,{
+      nombre: rol,
+      apellido: rol,
+      cedula: rol,
+      correo: email,
+      rol: 'empleado',
+      contrasenia: password ,
+      vacuna: " ",
+      telefono: " ",
+      direccion: " ",
+      estadoVacunado: " ",
+      tipoVacuna: " ",
+      fecha_Vacunacion: " ",
+      ndosis: " ",
+    })
+
+  }
+
+
+  async function submitHandler(e){
+    e.preventDefault();
+    const contraseniaRegistro = generarAleatorios(8);
+    const correo = e.target.elements.correo.value;
+    const nombre = e.target.elements.correo.value;
+    const apellido = e.target.elements.correo.value;
+    const cedula = e.target.elements.correo.value;
+    const rol= "empleado";
+    resgistrarUsuario(correo,contraseniaRegistro,rol,nombre,apellido,cedula)
+
+    //navigate("/");
     console.log("REGISTRADO");
-  };
- 
+  }
+
   return (
     <div className="container">
       <div className="row">
@@ -108,9 +106,10 @@ const CreateEmpleado = () => {
           <h1>Registrar usuario</h1>
           <br></br>
 
-          <Form onSubmit={empleadoGurdado}>
+          <Form onSubmit={submitHandler}>
             <label className="mb-3"> Nombre</label>
             <input
+              id="nombre"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               type="text"
@@ -119,6 +118,7 @@ const CreateEmpleado = () => {
 
             <label className="mb-3">apellido</label>
             <input
+              id="apellido"
               value={apellido}
               onChange={(e) => setApellido(e.target.value)}
               type="text"
@@ -126,6 +126,7 @@ const CreateEmpleado = () => {
             />
             <label className="mb-3">Cedula</label>
             <input
+              id="cedula"
               value={cedula}
               onChange={(e)=>setCedula(e.target.value)}
               type="text"
@@ -133,6 +134,7 @@ const CreateEmpleado = () => {
             />
             <label className="mb-3">correo</label>
             <input
+              id="correo"
               value={correo}
               onChange={(e)=>setCorreo(e.target.value)}
               type="text"

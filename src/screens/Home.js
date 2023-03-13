@@ -22,7 +22,7 @@ function Home({ user }) {
       </div>
       <br></br>
       <div>
-        {user.rol == "admin" ? <Adminview /> : <UserView id={user.id} />}
+        {user.rol === "admin" ? <Adminview /> : <UserView user={user}/>}
       </div>
     </div>
   );
