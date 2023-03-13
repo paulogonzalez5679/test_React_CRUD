@@ -1,15 +1,31 @@
-import React ,{useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
-import { collection,getDocs, getDoc, deleteDoc } from 'firebase/firestore'
-import {db} from "../firebase/credenciales";
-import s
+import React from "react";
+import EditEmpleado from "../components/EditEmpleado";
+import CreateEmpleado from "../components/CreateEmpleado";
+import ShowEmpleado from '../components/ShowEmpleado';
+
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 function Adminview() {
   return (
-    <div>
-      hola admin
+    <div className="App">
+      <div>
+      <br></br>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<ShowEmpleado/>}/>
+        <Route path="/create" element={<CreateEmpleado/>}/>
+        <Route path='/edit/:id' element={<EditEmpleado/>}/>
+      </Routes>
+      </BrowserRouter>
+      </div>
+      
+
+      
+      
     </div>
-  )
+  );
 }
 
-export default Adminview
+export default Adminview;

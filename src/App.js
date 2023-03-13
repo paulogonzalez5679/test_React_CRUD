@@ -8,11 +8,11 @@ const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(false);
 
   async function getRol(uid)
   {
-    const docRef = doc(firestore, `usuarios/${uid}`);
+    const docRef = doc(firestore, `Usuarios/${uid}`);
     const docu = await getDoc(docRef);
     const personalData = docu.data();
     console.log("DATA", personalData);
@@ -40,6 +40,7 @@ function App() {
     }
     )
   }
+  
 
   onAuthStateChanged(auth, (usuarioFirebase)=>{
    
@@ -49,10 +50,7 @@ function App() {
       {
         setUserRol(usuarioFirebase)
       }
-    
-      
-     
-      
+
     }else{
       setUser(null)
     }

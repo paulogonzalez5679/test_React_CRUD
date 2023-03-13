@@ -1,7 +1,8 @@
-// Importamos la función para inicializar la aplicación de Firebase
-import { initializeApp } from "firebase/app";
+import { initializeApp} from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// Añade aquí tus credenciales
+import 'firebase/auth'
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyC7FdaXAHAz6UpsfYhD0uy8PEoUxHu7J9c",
   authDomain: "usuariosvacunas.firebaseapp.com",
@@ -13,6 +14,9 @@ const firebaseConfig = {
 
 // Inicializamos la aplicación y la guardamos en firebaseApp
 const firebaseApp = initializeApp(firebaseConfig);
+//  const auth= firebaseConfig.auth();
+
 // Exportamos firebaseApp para poder utilizarla en cualquier lugar de la aplicación
-export const db = getFirestore(firebaseApp)
+// export const db = getFirestore(firebaseApp)
 export default firebaseApp;
+// export {auth}
