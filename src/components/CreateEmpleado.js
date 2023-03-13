@@ -25,10 +25,8 @@ const CreateEmpleado = () => {
   const [fecha_Vacunacion, setFechaVacuna] = useState("");
   const [ndosis, setNdosis] = useState("");
 
-  const navigate = useNavigate();
 
-  const usuariosCollection = collection(firestore, "Usuarios",);
-
+  // FUNCION PARA CREAR CLAVES ALEATORIAS
   function barajar(array) {
     let posicionActual = array.length;
     while (0 !== posicionActual) {
@@ -54,23 +52,21 @@ const CreateEmpleado = () => {
 
   // FUNCION QUE REGISTRA A NIVEL DE AUTH DE FIREBASE, PARA LUEGO
   // ACCEDER DESPUES CON LOS USUARIOS REGISTRADOS 
-  // EXISTEN ALGUNOS ERRORES AL ENVIAR ME SOLICITA UN ROL PERO AL MOMENTO DE ENVIARLO GENERA UN ERROR
-  // EN LA CONTRASEÑA
 
   async function resgistrarUsuario(email, password, rol, nombre, apellido, cedula)
   {
     const infousario = await createUserWithEmailAndPassword(auth, email,password).then((usuarioFirebase)=>{
       return usuarioFirebase
     })
-    console.log(infousario.user.uid);
+    console.log(infousario.user.uid, nombre, apellido, cedula);
 
     const docuref = doc(firestore,`Usuarios/${infousario.user.uid}`);
     setDoc(docuref,{
-      nombre: rol,
-      apellido: rol,
-      cedula: rol,
+      nombre: nombre,
+      apellido: apellido,
+      cedula: cedula,
       correo: email,
-      rol: 'empleado',
+      rol: 'Empleado',
       contrasenia: password ,
       vacuna: " ",
       telefono: " ",
@@ -88,10 +84,10 @@ const CreateEmpleado = () => {
     e.preventDefault();
     const contraseniaRegistro = generarAleatorios(8);
     const correo = e.target.elements.correo.value;
-    const nombre = e.target.elements.correo.value;
-    const apellido = e.target.elements.correo.value;
-    const cedula = e.target.elements.correo.value;
-    const rol= "empleado";
+    const nombre = e.target.elements.nombre.value;
+    const apellido = e.target.elements.apellido.value;
+    const cedula = e.target.elements.cedula.value;
+    const rol= "admin";
     resgistrarUsuario(correo,contraseniaRegistro,rol,nombre,apellido,cedula)
 
     //navigate("/");

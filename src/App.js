@@ -32,8 +32,9 @@ function App() {
         direccion: data.direccion,
         fecha_nac: data.fecha_nac,
         status_vacunado: data.status_vacunado,
-        telefono: data.telefono
-
+        telefono: data.telefono,
+        ndosis:data.ndosis, 
+        tipoVacuna: data.tipoVacuna
       };
       setUser(userData)
       console.log("DATA FINAL",userData);
@@ -70,15 +71,3 @@ export default App;
 
 
 
-
-
-// import home from "./views/inicio";
-// import iniciarSesion from "./views/iniciarSesion";
-
-// //Importamos la aplicación/credenciales
-// import firebaseApp from "./firebase/credenciales";
-
-// Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
-
-/* import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(firebaseApp); */
